@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Zen AI Hub</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -10,6 +10,17 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+    <!-- Passcode Lock Screen -->
+    <div id="lockScreen" class="lock-screen">
+        <div class="lock-box">
+            <h2>🔒 Enter Passcode</h2>
+            <p>Protected Access (<span id="attemptsLeft">3</span> attempts left)</p>
+            <input type="password" id="passcodeInput" placeholder="Enter password..." autocomplete="off">
+            <button id="unlockBtn">Unlock</button>
+            <p id="lockError" class="lock-error"></p>
+        </div>
+    </div>
+
     <div id="sidebarOverlay" class="overlay hidden"></div>
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
