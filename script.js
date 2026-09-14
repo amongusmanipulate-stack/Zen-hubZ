@@ -1,4 +1,4 @@
-// PUT YOUR GOOGLE AI STUDIO API KEY HERE
+// Your Google AI Studio API Key is integrated here
 const API_KEY = "AQ.Ab8RN6JO1RglXWdFLKS0DNNv-Ry5_hkn019cZDMEiWnLCpRTVg"; 
 
 const chatArea = document.getElementById('chatArea');
@@ -123,7 +123,7 @@ async function sendMessage() {
     appendMessage('<i class="fas fa-circle-notch fa-spin"></i> Thinking...', 'ai', true);
 
     try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: payloadParts }] })
@@ -141,7 +141,7 @@ async function sendMessage() {
 
     } catch (err) {
         chatArea.lastChild.remove();
-        appendMessage("Error: Check your API Key or internet.", 'ai');
+        appendMessage("Error: Check your connection.", 'ai');
     }
 }
 
@@ -163,4 +163,4 @@ document.querySelectorAll('.suggestion-btn').forEach(btn => {
 });
 
 loadHistoryUI();
-                                
+    
