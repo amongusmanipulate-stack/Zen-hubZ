@@ -1,5 +1,5 @@
 // Google AI Studio API Key (AQ. format supported)
-const API_KEY = AQ.Ab8RN6KpLSr_ctmOPDIun0sUbrBaqFs0kK23Je8pkqrTFYCXeQ 
+const API_KEY = "AQ.Ab8RN6KpLSr_ctmOPDIun0sUbrBaqFs0kK23Je8pkqrTFYCXeQ"
 
 // Passcode Protection Logic (KINGVON - 3 Attempts)
 let attemptsLeft = 3;
