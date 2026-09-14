@@ -2,30 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Hub | AI Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zen AI Hub</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <div class="chat-container">
-        <header class="chat-header">
-            <div class="status-dot"></div>
-            <h2>Zen AI Hub</h2>
+    <div id="sidebarOverlay" class="overlay hidden"></div>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Chats</h3>
+            <button id="closeSidebar" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <button id="newChatBtn" class="new-chat-btn"><i class="fas fa-plus"></i> New Conversation</button>
+        <div class="search-box">
+            <input type="text" id="searchHistory" placeholder="Search chats...">
+        </div>
+        <div id="historyList" class="history-list"></div>
+    </div>
+
+    <div class="main-container">
+        <header class="top-bar">
+            <button id="openSidebar" class="icon-btn"><i class="fas fa-bars"></i></button>
+            <h2 class="title">Zen AI</h2>
         </header>
-        
-        <div class="chat-messages" id="chatMessages">
-            <div class="message ai-message">
-                Yo! I'm your AI assistant on Zen Hub. What are we working on today?
+
+        <div id="chatArea" class="chat-area">
+            <div id="welcomeScreen" class="welcome-screen">
+                <h1>How can I help you today?</h1>
+                <div class="suggestions">
+                    <button class="suggestion-btn">Write a Python script</button>
+                    <button class="suggestion-btn">Explain Smali code</button>
+                </div>
             </div>
         </div>
 
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off">
-            <button id="sendBtn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+        <div class="input-container">
+            <div id="imagePreviewContainer" class="image-preview-hidden">
+                <img id="imagePreview" src="" alt="Preview">
+                <button id="removeImage"><i class="fas fa-times"></i></button>
+                <span id="fileName"></span>
+            </div>
+            
+            <div class="input-box">
+                <div class="dropdown">
+                    <button id="plusBtn" class="icon-btn"><i class="fas fa-plus"></i></button>
+                    <div id="attachMenu" class="dropdown-content hidden">
+                        <label for="imageUpload"><i class="fas fa-image"></i> Gallery</label>
+                        <input type="file" id="imageUpload" accept="image/*" hidden>
+                    </div>
+                </div>
+                <textarea id="userInput" placeholder="Type your message..." rows="1"></textarea>
+                <button id="sendBtn" class="icon-btn send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
         </div>
     </div>
 
