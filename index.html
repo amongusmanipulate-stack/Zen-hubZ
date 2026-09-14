@@ -3,15 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Project Hub</title>
+    <title>Zen Hub | AI Assistant</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Zen Hub</h1>
-        <p>Your custom tools, scripts, and downloads in one place.</p>
-        <a href="#" class="btn">Get Started</a>
+    <div class="chat-container">
+        <header class="chat-header">
+            <div class="status-dot"></div>
+            <h2>Zen AI Hub</h2>
+        </header>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                Yo! I'm your AI assistant on Zen Hub. What are we working on today?
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off">
+            <button id="sendBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
