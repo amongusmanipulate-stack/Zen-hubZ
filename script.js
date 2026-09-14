@@ -1,6 +1,40 @@
-// Your Google AI Studio API Key is integrated here
+// Google AI Studio API Key (AQ. format supported)
 const API_KEY = "AQ.Ab8RN6JO1RglXWdFLKS0DNNv-Ry5_hkn019cZDMEiWnLCpRTVg"; 
 
+// Passcode Protection Logic (KINGVON - 3 Attempts)
+let attemptsLeft = 3;
+const lockScreen = document.getElementById('lockScreen');
+const passcodeInput = document.getElementById('passcodeInput');
+const unlockBtn = document.getElementById('unlockBtn');
+const attemptsLeftSpan = document.getElementById('attemptsLeft');
+const lockError = document.getElementById('lockError');
+
+if (localStorage.getItem('zenUnlocked') === 'true') {
+    lockScreen.classList.add('hidden');
+}
+
+function handleUnlock() {
+    const val = passcodeInput.value.trim().toUpperCase();
+    if (val === "KINGVON") {
+        localStorage.setItem('zenUnlocked', 'true');
+        lockScreen.classList.add('hidden');
+    } else {
+        attemptsLeft--;
+        attemptsLeftSpan.textContent = attemptsLeft;
+        if (attemptsLeft <= 0) {
+            lockError.textContent = "Locked out. Too many incorrect attempts.";
+            passcodeInput.disabled = true;
+            unlockBtn.disabled = true;
+        } else {
+            lockError.textContent = "Incorrect password. Try again.";
+        }
+    }
+}
+
+unlockBtn.onclick = handleUnlock;
+passcodeInput.onkeypress = (e) => { if (e.key === 'Enter') handleUnlock(); };
+
+// Main Chat UI elements
 const chatArea = document.getElementById('chatArea');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
@@ -18,7 +52,7 @@ let chats = JSON.parse(localStorage.getItem('zenChats')) || [];
 let currentImageBase64 = null;
 let currentImageMimeType = null;
 
-// UI Setup
+// UI Handlers
 document.getElementById('openSidebar').onclick = () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.remove('hidden'); };
 document.getElementById('closeSidebar').onclick = document.getElementById('sidebarOverlay').onclick = () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.add('hidden'); };
 
@@ -59,7 +93,7 @@ userInput.addEventListener('keypress', (e) => {
 });
 sendBtn.onclick = sendMessage;
 
-// Chat Logic
+// Chat Logic & History
 function loadHistoryUI() {
     const list = document.getElementById('historyList');
     list.innerHTML = '';
@@ -76,7 +110,9 @@ function openChat(id) {
     currentChatId = id;
     const chat = chats.find(c => c.id === id);
     chatArea.innerHTML = '';
-    chat.messages.forEach(msg => appendMessage(msg.text, msg.role, false));
+    if(chat && chat.messages) {
+        chat.messages.forEach(msg => appendMessage(msg.text, msg.role, false));
+    }
     if (window.innerWidth < 768) document.getElementById('closeSidebar').click();
 }
 
@@ -105,7 +141,6 @@ async function sendMessage() {
 
     const currentChat = chats.find(c => c.id === currentChatId);
     
-    // Add User Msg
     let userMsgDisplay = text;
     if (currentImageBase64) userMsgDisplay += '<br>[Image Attached]';
     appendMessage(userMsgDisplay, 'user');
@@ -117,22 +152,21 @@ async function sendMessage() {
     
     if (currentImageBase64) {
         payloadParts.push({ inline_data: { mime_type: currentImageMimeType, data: currentImageBase64 } });
-        removeImage.click(); // Clear image
+        removeImage.click(); 
     }
 
     appendMessage('<i class="fas fa-circle-notch fa-spin"></i> Thinking...', 'ai', true);
 
     try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: payloadParts }] })
         });
         
         const data = await res.json();
-        chatArea.lastChild.remove(); // Remove loading
-
-        const aiText = data.candidates ? data.candidates[0].content.parts[0].text : "API Error or missing Key.";
+        
+        const aiText = data.candidates ? data.candidates[0].content.parts[0].text : (data.error ? data.error.message : "API Error occurred.");
         appendMessage(aiText, 'ai');
         currentChat.messages.push({ role: 'ai', text: aiText });
         
@@ -140,8 +174,15 @@ async function sendMessage() {
         loadHistoryUI();
 
     } catch (err) {
-        chatArea.lastChild.remove();
-        appendMessage("Error: Check your connection.", 'ai');
+        appendMessage("Network Error: Please check your connection.", 'ai');
+    } finally {
+        // Guaranteed cleanup of loading message so it never gets stuck
+        const loadingEls = chatArea.querySelectorAll('.ai-msg');
+        loadingEls.forEach(el => {
+            if (el.innerHTML.includes('fa-spinner') || el.innerHTML.includes('Thinking...')) {
+                el.remove();
+            }
+        });
     }
 }
 
@@ -163,4 +204,4 @@ document.querySelectorAll('.suggestion-btn').forEach(btn => {
 });
 
 loadHistoryUI();
-    
+            
