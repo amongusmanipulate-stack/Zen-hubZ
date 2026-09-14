@@ -1,5 +1,5 @@
-// Google AI Studio API Key
-const API_KEY = "AQ.Ab8RN6JO1RglXWdFLKS0DNNv-Ry5_hkn019cZDMEiWnLCpRTVg"; 
+// Your API Key is embedded here
+const API_KEY = "AQ.Ab8RN6IVe-IzYkasvmD6N6L-Y27f_AlyEldpxf5iCXNmxxvS3Q"; 
 
 // Passcode Protection Logic (KINGVON - 3 Attempts)
 let attemptsLeft = 3;
@@ -206,4 +206,4 @@ document.querySelectorAll('.suggestion-btn').forEach(btn => {
 });
 
 loadHistoryUI();
-                          
+                                  
