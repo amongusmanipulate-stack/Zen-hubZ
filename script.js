@@ -1,5 +1,5 @@
-// Google AI Studio API Key (AQ. format supported)
-const API_KEY = "AQ.Ab8RN6KpLSr_ctmOPDIun0sUbrBaqFs0kK23Je8pkqrTFYCXeQ"
+// Google AI Studio API Key
+const API_KEY = "AQ.Ab8RN6JO1RglXWdFLKS0DNNv-Ry5_hkn019cZDMEiWnLCpRTVg"; 
 
 // Passcode Protection Logic (KINGVON - 3 Attempts)
 let attemptsLeft = 3;
@@ -158,9 +158,12 @@ async function sendMessage() {
     appendMessage('<i class="fas fa-circle-notch fa-spin"></i> Thinking...', 'ai', true);
 
     try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "x-goog-api-key": API_KEY
+            },
             body: JSON.stringify({ contents: [{ parts: payloadParts }] })
         });
         
@@ -176,7 +179,6 @@ async function sendMessage() {
     } catch (err) {
         appendMessage("Network Error: Please check your connection.", 'ai');
     } finally {
-        // Guaranteed cleanup of loading message so it never gets stuck
         const loadingEls = chatArea.querySelectorAll('.ai-msg');
         loadingEls.forEach(el => {
             if (el.innerHTML.includes('fa-spinner') || el.innerHTML.includes('Thinking...')) {
@@ -204,4 +206,4 @@ document.querySelectorAll('.suggestion-btn').forEach(btn => {
 });
 
 loadHistoryUI();
-            
+                          
