@@ -1,5 +1,5 @@
 // PUT YOUR GOOGLE AI STUDIO API KEY HERE
-const API_KEY = "sk-bl-psKqAVRmck9qoXu2Ergi7dLUQJpez2m2MzipcEmfdSndrfWa"; 
+const API_KEY = "AQ.Ab8RN6JO1RglXWdFLKS0DNNv-Ry5_hkn019cZDMEiWnLCpRTVg"; 
 
 const chatArea = document.getElementById('chatArea');
 const userInput = document.getElementById('userInput');
